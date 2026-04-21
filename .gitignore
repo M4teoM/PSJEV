@@ -1,0 +1,10 @@
+js/config.js
+.DS_Store
+
+# Base de datos simulada y credenciales locales
+data/usuarios.txt
+.env
+
+# Archivos de sistema y logs
+*.log
+.vscode/
