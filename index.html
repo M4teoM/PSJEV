@@ -4,185 +4,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sistema de recarga para cargadores eléctricos — Parques de San Jerónimo" />
-  <title>Parques de San Jerónimo — Recarga</title>
-
-  <!-- Google Fonts -->
+  <meta name="description"
+    content="Home Page de Parques de San Jerónimo con acceso a pagos y recarga de vehículos eléctricos." />
+  <title>Parques de San Jerónimo | Home</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
-  <!-- Hoja de estilos -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
-
-  <!-- Wompi Widget (debe cargarse antes que app.js para exponer WidgetCheckout) -->
-  <script src="https://checkout.wompi.co/widget.js"></script>
-
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- Configuración Módulos -->
-  <script src="js/config.js" defer></script>
-  <!-- Lógica de la aplicación -->
-  <script src="js/app.js" defer></script>
 </head>
 
-<body class="is-login">
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
 
-  <!-- ════════════════  LOGIN  ════════════════ -->
-  <section id="loginCard" class="card">
-    <div class="logo">
-      <div class="logo-icon">
-        <!-- Lightning bolt SVG -->
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M13 2L4.09 12.63a1 1 0 0 0 .78 1.62H11v7.13a.5.5 0 0 0 .9.3L20.91 11.37a1 1 0 0 0-.78-1.62H13V2.75A.5.5 0 0 0 12.53 2Z" />
-        </svg>
-      </div>
-      <h1>Parques de San Jerónimo</h1>
-      <p>Recarga tu vehículo eléctrico</p>
+  <header class="site-header" id="inicio">
+    <div class="container nav-shell">
+      <a href="#inicio" class="brand" aria-label="Ir al inicio">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M13 2 4.1 12.7a1 1 0 0 0 .8 1.6H11v7.1a.5.5 0 0 0 .9.3l9-10.3a1 1 0 0 0-.8-1.6H13V2.7a.5.5 0 0 0-.5-.7Z" />
+          </svg>
+        </span>
+        <span class="brand-text">Parques de San Jerónimo</span>
+      </a>
+
+      <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-label="Abrir menú" />
+      <label for="menu-toggle" class="menu-button" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <nav class="main-nav" aria-label="Navegación principal">
+        <ul class="nav-list">
+          <li><a href="#sobre">Sobre el Conjunto</a></li>
+          <li><a href="#administracion">Administración</a></li>
+          <li class="nav-payments">
+            <details class="payments-dropdown">
+              <summary>Zona de Pagos</summary>
+              <ul class="payments-list" id="zona-pagos">
+                <li>
+                  <a class="payment-priority" href="#acceso-carga">
+                    Pago Carga Vehículos Eléctricos
+                    <span class="tag">Prioritario</span>
+                  </a>
+                </li>
+                <li><a href="#administracion">Pago Administración</a></li>
+                <li><a href="#zonas-privadas">Pago Uso Zonas Privadas</a></li>
+                <li>
+                  <span class="payment-disabled" aria-disabled="true">Próximamente</span>
+                </li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <form id="loginForm" autocomplete="off">
-      <div class="field">
-        <label for="loginUser">Usuario</label>
-        <input id="loginUser" type="text" placeholder="Ej. residente01" required />
-      </div>
-      <div class="field">
-        <label for="loginPass">Contraseña</label>
-        <input id="loginPass" type="password" placeholder="••••••••" required />
-      </div>
-      <div id="loginError" class="alert alert--error hidden">
-        <svg viewBox="0 0 20 20">
-          <path d="M10 0a10 10 0 1 0 0 20A10 10 0 0 0 10 0Zm1 15H9v-2h2v2Zm0-4H9V5h2v6Z" />
-        </svg>
-        <span>Por favor completa ambos campos.</span>
-      </div>
-      <button type="submit" class="btn" id="btnLogin">
-        <svg viewBox="0 0 20 20">
-          <path
-            d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm6.32 13.89A9 9 0 0 0 10 13a9 9 0 0 0-6.32 2.89A7.96 7.96 0 0 0 10 18a7.96 7.96 0 0 0 6.32-2.11Z" />
-        </svg>
-        Iniciar Sesión
-      </button>
-    </form>
-  </section>
-
-  <!-- ════════════════  PANEL DE RECARGA  ════════════════ -->
-  <section id="chargeCard" class="card hidden">
-    <div class="logo">
-      <div class="logo-icon">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M13 2L4.09 12.63a1 1 0 0 0 .78 1.62H11v7.13a.5.5 0 0 0 .9.3L20.91 11.37a1 1 0 0 0-.78-1.62H13V2.75A.5.5 0 0 0 12.53 2Z" />
-        </svg>
-      </div>
-      <h1>Parques de San Jerónimo</h1>
-      <p>Panel de Recarga</p>
-    </div>
-
-    <!-- User bar -->
-    <div class="user-bar">
-      <span>Hola, <strong id="displayUser">Residente</strong></span>
-      <button id="btnLogout" type="button">Cerrar sesión</button>
-    </div>
-
-    <!-- Amount input -->
-    <form id="chargeForm" autocomplete="off">
-      <!-- Charger selection -->
-      <div class="field">
-        <label for="chargerSelect">Selecciona el cargador</label>
-        <select id="chargerSelect" required>
-          <option value="" disabled selected>Selecciona el cargador</option>
-          <option value="tipo1">Cargador tipo 1 7kw</option>
-          <option value="tipo2">Cargador tipo 2 7kw</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="amountInput">Monto a recargar (COP)</label>
-        <input id="amountInput" type="number" min="2000" step="100" placeholder="Ej. 15000" required />
-      </div>
-      <p class="amount-display" id="amountHint">Ingresa un valor mínimo de <strong>$2.000 COP</strong></p>
-      <button type="submit" class="btn" id="btnConfirm">
-        <svg viewBox="0 0 20 20">
-          <path
-            d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 1 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0Z" />
-        </svg>
-        Confirmar Monto
-      </button>
-    </form>
-
-    <!-- Result alert area -->
-    <div id="resultArea"></div>
-
-    <!-- Sandbox test cards -->
-    <div class="test-cards">
-      <h3>🧪 Tarjetas de prueba Sandbox</h3>
-      <ul>
-        <li><code>4242 4242 4242 4242</code> <span class="badge badge--ok">Aprobada</span></li>
-        <li><code>4111 1111 1111 1111</code> <span class="badge badge--no">Rechazada</span></li>
-      </ul>
-      <p style="margin-top:.5rem;font-size:.78rem;color:var(--clr-muted);">
-        Usa cualquier CVC (3 dígitos) y una fecha de expiración futura.
-      </p>
-    </div>
-  </section>
-
-  <!-- ════════════════  PANEL ADMIN  ════════════════ -->
-  <section id="adminStatsCard" class="card card--large hidden">
-    <div class="logo">
-      <div class="logo-icon" style="background: #eef2ff; color: #4f46e5;">
-        <svg viewBox="0 0 24 24">
-          <path d="M3 3v18h18M7 15l4-4 4 4 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        </svg>
-      </div>
-      <h1>Estadísticas Generales</h1>
-      <p>Panel de Administración</p>
-    </div>
-
-    <div class="stats-kpi-grid">
-      <div class="stat-box">
-        <span class="stat-label">Recargas Hoy</span>
-        <span class="stat-value">24</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-label">Ingresos Totales</span>
-        <span class="stat-value">$345.500</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-label">Energía 7 Días</span>
-        <span class="stat-value">142 kWh</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-label">Cargadores</span>
-        <span class="stat-value">2 / 2 Activos</span>
-      </div>
-    </div>
-    
-    <div class="charts-container">
-      <div class="chart-box">
-        <h3 class="stats-subtitle">Consumo Energético (Últimos 7 días)</h3>
-        <div class="chart-wrapper">
-          <canvas id="energyChart"></canvas>
+  <main id="contenido">
+    <section class="hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Comunidad conectada, energía inteligente</p>
+          <h1>Bienvenido a Parques de San Jerónimo</h1>
+          <p>
+            Gestiona tus pagos del conjunto desde una sola plataforma: recarga de vehículos eléctricos,
+            administración y reserva de zonas privadas con una navegación clara y rápida.
+          </p>
+          <div class="hero-actions" id="acceso-carga">
+            <a class="btn btn-primary" href="#sistema-carga">Ir al sistema de carga</a>
+            <a class="btn btn-secondary" href="#zona-pagos">Ver todas las opciones de pago</a>
+          </div>
         </div>
-      </div>
-      <div class="chart-box">
-        <h3 class="stats-subtitle">Uso de Cargadores Hoy</h3>
-        <div class="chart-wrapper chart-wrapper--doughnut">
-          <canvas id="usageChart"></canvas>
-        </div>
-      </div>
-    </div>
 
-    <h3 class="stats-subtitle" style="margin-top: 1rem;">Actividad Reciente</h3>
-    <ul class="stats-list">
-      <li><span>Residente03</span> <strong>+ $15.000</strong></li>
-      <li><span>Residente12</span> <strong>+ $25.000</strong></li>
-      <li><span>Admin</span> <strong>+ $10.000</strong></li>
-    </ul>
-  </section>
+        <aside class="hero-panel" id="sistema-carga" aria-label="Acceso rápido a recarga">
+          <h2>Acceso rápido</h2>
+          <p>Prioriza tu sesión de recarga y gestiona el saldo en segundos.</p>
+          <a class="panel-link" href="#acceso-carga">Abrir panel de gestión de carga</a>
+          <ul>
+            <li>Monitoreo de consumo por sesión</li>
+            <li>Pagos seguros desde el celular</li>
+            <li>Historial de recargas y facturación</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
 
+    <section class="quick-sections container">
+      <article id="sobre" class="info-card">
+        <h2>Sobre el Conjunto</h2>
+        <p>Información general de la copropiedad, novedades de convivencia y comunicaciones para residentes.</p>
+      </article>
+      <article id="administracion" class="info-card">
+        <h2>Administración</h2>
+        <p>Consulta circulares, reglamentos y canales de contacto administrativo en un solo lugar.</p>
+      </article>
+      <article id="zonas-privadas" class="info-card">
+        <h2>Pago de Zonas Privadas</h2>
+        <p>Reserva y paga salones, BBQ y otros espacios comunes según disponibilidad.</p>
+      </article>
+    </section>
+  </main>
 </body>
 
 </html>
