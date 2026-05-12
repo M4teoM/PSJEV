@@ -130,9 +130,9 @@ export default function Recarga() {
       if (!res.ok) throw new Error('backend no disponible')
       return res.json() // { firma, publicKey }
     } catch {
-      // Fallback: calcula la firma en el cliente (solo para sandbox/prototipo)
-      const secreto = 'test_integrity_5IfHdldMe7kwp4PdOWHdAunrfDd9yhVm'
-      const publicKey = 'pub_test_H30y3P0ZVVOWdPUN72fbwVlSxm6Va2PO'
+      // Fallback: calcula la firma en el cliente (usando variables de entorno)
+      const secreto = import.meta.env.VITE_WOMPI_INTEGRITY_SECRET
+      const publicKey = import.meta.env.VITE_WOMPI_PUBLIC_KEY
       const firma = sha256Client(`${referencia}${amountInCents}COP${secreto}`)
       return { firma, publicKey }
     }

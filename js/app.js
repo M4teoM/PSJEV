@@ -181,38 +181,10 @@ loginForm.addEventListener("submit", async (e) => {
   }
 
   try {
-    // Consultar el archivo de texto simulando la base de datos
-    // Soporta ejecución desde la raíz (/index.html) y desde /pages/pagos.html.
-    const posiblesRutas = ["../data/usuarios.txt", "data/usuarios.txt", "/data/usuarios.txt"];
-    let response = null;
+    // Validación contra el objeto USUARIOS_SISTEMA definido en config.js
+    const match = USUARIOS_SISTEMA.find(u => u.user === user && u.pass === pass);
 
-    for (const ruta of posiblesRutas) {
-      const intento = await fetch(ruta);
-      if (intento.ok) {
-        response = intento;
-        break;
-      }
-    }
-
-    if (!response) throw new Error("Error al conectar con la base de datos");
-    const dbData = await response.text();
-
-    // Parsear el archivo: separar por saltos de línea y buscar la coincidencia
-    const lines = dbData
-      .split("\n")
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0);
-    let isAuthenticated = false;
-
-    for (const line of lines) {
-      const [dbUser, dbPass] = line.split(",");
-      if (dbUser === user && dbPass === pass) {
-        isAuthenticated = true;
-        break;
-      }
-    }
-
-    if (!isAuthenticated) {
+    if (!match) {
       errorSpan.textContent = "Usuario o contraseña incorrectos.";
       loginError.classList.remove("hidden");
       return;
@@ -226,7 +198,7 @@ loginForm.addEventListener("submit", async (e) => {
     chargeCard.classList.remove("hidden");
 
     // Si el usuario es administrador, mostramos su panel de estadísticas lateral
-    if (user === "admin") {
+    if (match.role === "admin") {
       const adminStatsCard = document.getElementById("adminStatsCard");
       if (adminStatsCard) {
         adminStatsCard.classList.remove("hidden");
@@ -236,7 +208,7 @@ loginForm.addEventListener("submit", async (e) => {
 
     document.body.classList.remove("is-login");
   } catch (error) {
-    errorSpan.textContent = "Error del servidor. Intenta nuevamente.";
+    errorSpan.textContent = "Error al iniciar sesión. Intenta nuevamente.";
     loginError.classList.remove("hidden");
   }
 });

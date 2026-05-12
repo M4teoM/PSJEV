@@ -1,15 +1,6 @@
 import { Router } from 'express'
-import { readFileSync } from 'fs'
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url'
 
 const router = Router()
-const __dir = dirname(fileURLToPath(import.meta.url))
-
-function getUsers() {
-  const path = join(__dir, '../data/usuarios.json')
-  return JSON.parse(readFileSync(path, 'utf8'))
-}
 
 // POST /api/auth/login
 router.post('/login', (req, res) => {
@@ -19,15 +10,21 @@ router.post('/login', (req, res) => {
     return res.status(400).json({ error: 'Usuario y contraseña requeridos' })
   }
 
-  const users = getUsers()
-  const user = users.find(u => u.username === username && u.password === password)
+  // Validación contra variables de entorno
+  let role = null
 
-  if (!user) {
+  if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
+    role = 'admin'
+  } else if (username === process.env.RESIDENT_USERNAME && password === process.env.RESIDENT_PASSWORD) {
+    role = 'resident'
+  }
+
+  if (!role) {
     return res.status(401).json({ error: 'Credenciales incorrectas' })
   }
 
   // En producción: retornar un JWT firmado, no el objeto de usuario.
-  res.json({ ok: true, username: user.username, role: user.role })
+  res.json({ ok: true, username, role })
 })
 
 export default router
